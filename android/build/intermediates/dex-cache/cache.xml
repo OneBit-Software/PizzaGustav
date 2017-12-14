@@ -84,6 +84,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="C:\git\OneBit\demoPizzaApp\android\app\build\intermediates\exploded-aar\demoPizzaApp\react-native-vector-icons\unspecified\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="f2cf527de8d0bd35d72088fafea02395ba4a9eec">
+        <dex dex="C:\git\OneBit\demoPizzaApp\android\app\build\intermediates\pre-dexed\debug\demoPizzaApp-react-native-vector-icons-unspecified_64ca73c7982a322aa03f8590ed99774ff7c72d8a.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="C:\Users\rafis\.gradle\caches\modules-2\files-2.1\javax.inject\javax.inject\1\6975da39a7040257bd51d21a231b76c915872d38\javax.inject-1.jar"
         jumboMode="false"
         optimize="true"

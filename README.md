@@ -1,6 +1,6 @@
 # demoPizzaApp
 
-This should become a demo-version for the pizza app. Please fork your own copy of the project and just hack.
+This should become a demo-version of the pizza app. Please fork your own copy of the project and just hack.
 
 # React-Native-App
 
