@@ -2,6 +2,7 @@ package com.demopizzaapp;
 
 import android.app.Application;
 
+import com.reactnativenavigation.NavigationApplication;
 import com.facebook.react.ReactApplication;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
@@ -13,6 +14,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
+
+  @Override
+     public boolean isDebug() {
+         // Make sure you are using BuildConfig from your own application
+         return BuildConfig.DEBUG;
+     }
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
