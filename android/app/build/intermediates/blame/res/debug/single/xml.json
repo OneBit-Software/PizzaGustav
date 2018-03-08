@@ -1,6 +1,10 @@
 [
     {
-        "merged": "C:\\git\\OneBit\\demoPizzaApp\\android\\app\\build\\intermediates\\res\\merged\\debug\\xml\\preferences.xml",
-        "source": "C:\\git\\OneBit\\demoPizzaApp\\android\\app\\build\\intermediates\\exploded-aar\\com.facebook.react\\react-native\\0.49.5\\res\\xml\\preferences.xml"
+        "merged": "/home/lars/VisualProjects/demoPizzaApp/android/C:\\git\\OneBit\\demoPizzaApp\\android\\app\\build\\intermediates\\res\\merged\\debug\\xml\\preferences.xml",
+        "source": "/home/lars/VisualProjects/demoPizzaApp/android/C:\\git\\OneBit\\demoPizzaApp\\android\\app\\build\\intermediates\\exploded-aar\\com.facebook.react\\react-native\\0.49.5\\res\\xml\\preferences.xml"
+    },
+    {
+        "merged": "/home/lars/VisualProjects/demoPizzaApp/android/app/build/intermediates/res/merged/debug/xml/preferences.xml",
+        "source": "/home/lars/VisualProjects/demoPizzaApp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.49.5/res/xml/preferences.xml"
     }
 ]

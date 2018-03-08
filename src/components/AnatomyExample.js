@@ -13,10 +13,9 @@ export default class AnatomyExample extends Component {
             </Button>
           </Left>
           <Body>
-            <Title>Header</Title>
+            <Title>Pizza Frische Pizza!!!</Title>
             <Text>Text in header</Text>
           </Body>
-          <Right />
         </Header>
         <Content>
           <Text>

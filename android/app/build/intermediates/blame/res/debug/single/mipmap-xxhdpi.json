@@ -1,6 +1,10 @@
 [
     {
-        "merged": "C:\\git\\OneBit\\demoPizzaApp\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi\\ic_launcher.png",
-        "source": "C:\\git\\OneBit\\demoPizzaApp\\android\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
+        "merged": "/home/lars/VisualProjects/demoPizzaApp/android/app/build/intermediates/res/merged/debug/mipmap-xxhdpi/ic_launcher.png",
+        "source": "/home/lars/VisualProjects/demoPizzaApp/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/home/lars/VisualProjects/demoPizzaApp/android/C:\\git\\OneBit\\demoPizzaApp\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi\\ic_launcher.png",
+        "source": "/home/lars/VisualProjects/demoPizzaApp/android/C:\\git\\OneBit\\demoPizzaApp\\android\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
     }
 ]
