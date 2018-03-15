@@ -14,11 +14,12 @@ export default class SettingScreen extends Component {
   };
 
   render() {
+    var me = this;
     return (
       <Container>
         <Content style={containers.blackBG}>
           <Text id="content" style={containers.whiteText}>
-            This is ContentFAWEFJIWEFJ IWEJF WAIOEJF AOIWEJFO AIWEJF AIWJEF OAIJEFIOAJWE FIOAJWEOIF JAWEOIFJ AWOIEFJ AWOIEJF IJ Section!!
+            There are no Settings available. Go <Text onClick={()=>me.props.navigation.navigate('Home')}>back</Text>
           </Text>
         </Content>
         <Footer>

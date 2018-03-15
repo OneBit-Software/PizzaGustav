@@ -7,14 +7,22 @@ import { StackNavigator } from 'react-navigation';
 
 export default class HomeScreen extends Component {
 
-  static navigationOptions = {
-    title: 'Home',
-    headerStyle: {
-      backgroundColor: '#aa0000'
-    },
-    headerTintColor: '#00aa00'
+  static navigationOptions = ({ navigation }) => {
+    return{
+      title: 'Home',
+      headerStyle: {
+        backgroundColor: '#aa0000'
+      },
+      headerTintColor: '#00aa00',
+      headerRight: (
+        <Button 
+        transparent 
+        onPress={() => navigation.navigate('Settings')}>
+        <Icon name='menu' />
+      </Button>
+      )
+    }
   };
-
   render() {
     return (
       <Container>
@@ -22,9 +30,6 @@ export default class HomeScreen extends Component {
           <Text id="content" style={containers.whiteText}>
             This is ContentFAWEFJIWEFJ IW WAIOEJuhuF AOIWEJFO AIWEJF AIWJEF OAIJEFIOAJWE FIOAJWEOIF JAWEOIFJ AWOIEFJ AWOIEJF IJ Section!!
           </Text>
-          <Button transparent onPress={()=>this.props.navigation.navigate('Settings')}>
-            <Icon name='menu' />
-          </Button>
         </Content>
         <Footer>
           <FooterTab style={ containers.footer }>
