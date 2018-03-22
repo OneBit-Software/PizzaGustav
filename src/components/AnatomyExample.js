@@ -34,3 +34,8 @@ export default class AnatomyExample extends Component {
     );
   }
 }
+
+function readRange(spreadsheetId) {
+  var response = Sheets.Spreadsheets.Values.get(spreadsheetId, "Sheet1!A2:C3");
+    Logger.log(response.values);
+}
