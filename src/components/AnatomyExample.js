@@ -18,6 +18,7 @@ export default class AnatomyExample extends Component {
           </Body>
         </Header>
         <Content>
+          readRange(1cAMaeLWimahJmNskH-rmrFxEIGsJKlXM_twUv7glLD8);
           <Text>
             This is Content Section!!
           </Text>
