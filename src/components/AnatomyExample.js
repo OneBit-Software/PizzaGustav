@@ -31,14 +31,14 @@ export default class AnatomyExample extends Component {
             </Button>
           </Left>
           <Body>
-            <Title>Pizza Frische Pizza!!!</Title>
+            <Title>Header</Title>
             <Text>Text in header</Text>
           </Body>
+          <Right />
         </Header>
         <Content>
           <Text>
-            <Output />
-            {this.Output}
+            This is Content Section!!
           </Text>
         </Content>
         <Footer>
@@ -52,5 +52,3 @@ export default class AnatomyExample extends Component {
     );
   }
 }
-
-   
