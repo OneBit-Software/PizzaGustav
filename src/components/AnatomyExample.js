@@ -2,7 +2,25 @@ import React, { Component } from 'react';
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import containers from '../style/containers';
 
+var axios = require('axios');
+//https://sheets.googleapis.com/v4/spreadsheets/{spreadsheetId}/values/{sheetName}!{cellRange}?key={yourAPIKey}
+var url = "https://sheets.googleapis.com/v4/spreadsheets/14HaY3sid7PnDsuBI-rIddFf8vIBzuJbiGNUwa8UpE1U/values/Sheet1!A2:C3?key=AIzaSyACyHLJPD9WaU-At0Q7SYyUkE_S30ilxMg";
+var Output;
+
+
 export default class AnatomyExample extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { /* initial state */ };
+    axios.get(url)
+    .then(function (response) {
+      console.log(response);
+      Output = response;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });  
+  }
   render() {
     return (
       <Container>
@@ -18,9 +36,9 @@ export default class AnatomyExample extends Component {
           </Body>
         </Header>
         <Content>
-          readRange(1cAMaeLWimahJmNskH-rmrFxEIGsJKlXM_twUv7glLD8);
           <Text>
-            This is Content Section!!
+            <Output />
+            {this.Output}
           </Text>
         </Content>
         <Footer>
@@ -35,7 +53,4 @@ export default class AnatomyExample extends Component {
   }
 }
 
-function readRange(spreadsheetId) {
-  var response = Sheets.Spreadsheets.Values.get(spreadsheetId, "Sheet1!A2:C3");
-    Logger.log(response.values);
-}
+   
