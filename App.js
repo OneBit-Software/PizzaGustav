@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import AnatomyExample from './src/components/AnatomyExample.js';
+import StartPage from './src/components/StartPage.js';
 
 export default class App extends React.Component {
   render() {
     return (
-      <AnatomyExample />
+      <StartPage />
       
     );
   }
