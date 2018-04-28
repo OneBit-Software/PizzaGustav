@@ -85,5 +85,3 @@ export default class AnatomyExample extends Component {
     }
   }
 }
-
-   
