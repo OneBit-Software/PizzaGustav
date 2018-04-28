@@ -7,13 +7,20 @@ var axios = require('axios');
 
 
 export default class AnatomyExample extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
-      error: '', 
+      error: '',
       loading: true,
       pizzas: []
-    }; 
+    };
+
+    this.spreadsheetId = "14HaY3sid7PnDsuBI-rIddFf8vIBzuJbiGNUwa8UpE1U";
+    this.sheetName = "Sheet1";
+    this.cellRange = "A2:C3";
+    this.apiKey = "AIzaSyACyHLJPD9WaU-At0Q7SYyUkE_S30ilxMg";
+    this.googleUrl = "https://sheets.googleapis.com/v4/spreadsheets/{spreadsheetId}/values/{sheetName}!{cellRange}?key={apiKey}";
   }
 
   componentWillMount() {
@@ -33,12 +40,22 @@ export default class AnatomyExample extends Component {
     })
   }
 
+  getSheetUrl() {
+    var url = this.googleUrl;
+    url = url.replace("{spreadsheetId}", this.spreadsheetId);
+    url = url.replace("{sheetName}", this.sheetName);
+    url = url.replace("{cellRange}", this.cellRange);
+    url = url.replace("{apiKey}", this.apiKey);
+    return url;
+  }
+
   async loadDataFromSheet() {
-    var url = "https://sheets.googleapis.com/v4/spreadsheets/14HaY3sid7PnDsuBI-rIddFf8vIBzuJbiGNUwa8UpE1U/values/Sheet1!A2:C3?key=AIzaSyACyHLJPD9WaU-At0Q7SYyUkE_S30ilxMg";
+    var url = this.getSheetUrl();
+    console.log(url);
     let response = await axios.get(url);
-    if(response!=null) {
-      if(response.data!=null) {
-        if(response.data.values!=null) {
+    if (response != null) {
+      if (response.data != null) {
+        if (response.data.values != null) {
           return response.data.values;
         }
       }
@@ -47,7 +64,7 @@ export default class AnatomyExample extends Component {
   }
 
   render() {
-    if(this.state.loading) {
+    if (this.state.loading) {
       return (
         <Container>
           <Text>Loading...</Text>
