@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import containers from '../style/containers';
-import Test from './Test';
 import { StackNavigator } from 'react-navigation';
 
 
