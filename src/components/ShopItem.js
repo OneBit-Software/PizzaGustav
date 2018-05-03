@@ -13,30 +13,34 @@ class ShopItem extends Component {
 		name: "Missing Name",
 		count: 0
 	};
-	onPlusPress(){
-		// TODO: find a way to check for 'undefined' without throwing an exception.
-		if (typeof this.props.count === undefined || this.props.count == null)
-			this.props.count = defaultProps.count;
-		this.props.count = this.props.count + 1;
-	 }
-	onMinusPress() { 
-		if (typeof this.props.count === undefined || this.props.count == null)
-			this.props.count = defaultProps.count;
-		if(this.props.count > 0) 
-			this.props.count = this.props.count - 1;
-	 }
-	getName(){ 
-		if(this.props.children == "Missing Name")
-			return this.props.name; 
-		return this.props.children;
+
+	constructor(props){
+		super(props);
+		let count = ShopItem.defaultProps.count;
+		let name = ShopItem.defaultProps.name;
+		if (typeof(props.children) !== 'undefined' && props.children !== null) name = props.children;
+		else if (typeof(props.name) !== 'undefined' && props.name !== null) name = props.name;
+
+		if (typeof(props.count) !== 'undefined' && props.count !== null) count = props.count;
+		this.state = {
+			name: name,
+			count: count
+		};
 	}
+	onPlusPress(){
+		this.setState({count: this.state.count + 1});
+	 }
+	onMinusPress() {
+		if(this.state.count > 0) 
+			this.setState({count: this.state.count - 1});
+	 }
 	render() {
 		return (
 			<Container>
-				<Button transparent onPress={this.onPlusPress}><Icon name='md-add'/></Button>
-				<Text>{this.getName()}</Text>
-				<Text>{this.props.count.toString()}</Text>
-				<Button transparent onPress={this.onMinusPress}><Icon name='md-remove'/></Button>
+				<Button transparent onPress={this.onPlusPress.bind(this)}><Icon name='md-add'/></Button>
+				<Text>{this.state.name}</Text>
+				<Text>{this.state.count}</Text>
+				<Button transparent onPress={this.onMinusPress.bind(this)}><Icon name='md-remove'/></Button>
 			</Container>
 		);
 	}
