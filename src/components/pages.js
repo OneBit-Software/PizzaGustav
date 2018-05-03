@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Content, Button, Body, Text } from 'native-base';
+import {Image} from 'react-native';
+import { Container, Content, Button, Body, Text} from 'native-base';
 import ShopItem from './ShopItem';
 
 var createReactClass = require('create-react-class');
@@ -20,7 +21,7 @@ module.exports = {
 						<Button onPress={() => this.onNavLinkPress('News')}><Text>News</Text></Button>
 						<Button onPress={() => this.onNavLinkPress('Öffnungszeiten')}><Text>Öffnungszeiten</Text></Button>
 						<Button onPress={() => this.onNavLinkPress('Kontakt')}><Text>Kontakt</Text></Button>
-						<ShopItem>TEST</ShopItem>
+						<ShopItem name="TEST2" price={200} icon='test'/>
 					</Content>
 				</Container>
 			)
