@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Image, View } from 'react-native';
 import { Container, Content, Button, Body, Text, Icon, Header, Left, Right, Title, Footer } from 'native-base';
-import ShopItem from '../ShopItem';
+import ShopItem from '../shopItem';
 import Images from '../../assets/images';
 import Style from '../../style/containers';
 import NavHeader from '../customHeader';

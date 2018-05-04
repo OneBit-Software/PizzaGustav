@@ -20,5 +20,13 @@ export default DrawerNavigator({
 			drawerBackgroundColor: "black",
 			contentOptions: {
 				inactiveTintColor: "white",
+				labelStyle:{
+					margin:0,
+					padding:10,
+					flex:1,
+					borderBottomColor: 'white',
+					borderBottomWidth: 1.5,
+				}
+				
 			}
 		});

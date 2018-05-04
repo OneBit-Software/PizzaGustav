@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import { Image, TextInput, View } from 'react-native';
 import React, { Component } from 'react';
 import { Container, Content, Button, Icon, Text } from 'native-base';
-import ShopItemStyle from '../style/ShopItemStyle';
-import NumericInput from './NumericInput';
+import ShopItemStyle from '../style/shopItemStyle';
+import NumericInput from './numericInput';
 
 class ShopItem extends Component {
 
