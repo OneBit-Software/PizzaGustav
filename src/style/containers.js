@@ -6,11 +6,11 @@ export default StyleSheet.create({
 		borderTopWidth: 1,
 		borderTopColor: 'white',
 	},
-	buttonContent: {
-		color: 'white'
-	},
-	header: {
-		backgroundColor: 'black'
+	fgWhite: { color: 'white' },
+	bgBlack: { backgroundColor: 'black' },
+	list: {
+		backgroundColor: 'black',
+		flex:1,
 	},
 	footer: {
 		backgroundColor: 'black',
@@ -20,5 +20,10 @@ export default StyleSheet.create({
 	subFooter: {
 		flexDirection: 'row',
 		justifyContent: 'space-evenly',
-	}
+	},
+	logo:{
+		flex:1,
+		width: null,
+		height: null,
+	},
 });

@@ -1,12 +1,20 @@
-import {Button, Icon, Text} from 'native-base'
-import {StartSeite, Bestellen} from './pages';
+import {Button, Icon, Text} from 'native-base';
 import { StackNavigator, DrawerNavigator } from 'react-navigation';
 import React from 'react';
+import StartSeite from './screens/startseite';
+import News from './screens/news';
+import Bestellen from './screens/bestellen';
+import Kontakt from './screens/kontakt';
+import Mindestbestellung from './screens/mindestbestellung';
+import Oeffnungszeiten from './screens/oeffnungszeiten';
 
-
-module.exports = {
-	Drawer: DrawerNavigator({
+export default DrawerNavigator({
+			MindestbestellScreen: { screen: Mindestbestellung },
+			NewsScreen: { screen: News},
+			KontaktScreen: { screen: Kontakt },
+			OeffnungszeitenScreen: { screen: Oeffnungszeiten },
 			HomeScreen: { screen: StartSeite },
-			BestellScreen: {screen: Bestellen }
-		})
-}
+			BestellScreen: { screen: Bestellen },
+		},{
+			initialRouteName: "HomeScreen",
+		});
