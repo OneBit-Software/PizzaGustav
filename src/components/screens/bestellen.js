@@ -4,6 +4,7 @@ import { Container, Content, Button, Body, Text, Icon, Header, Left, Right, Titl
 import ShopItem from '../ShopItem';
 import Images from '../../assets/images';
 import Style from '../../style/containers';
+import NavHeader from '../customHeader';
 
 class Bestellen extends Component {
 	// from https://github.com/react-navigation/react-navigation/issues/2021#issuecomment-330891515
@@ -12,16 +13,7 @@ class Bestellen extends Component {
 		const { navigate } = this.props.navigation;
 		return (
 			<Container>
-				<Header style={Style.bgBlack}>
-					<Left>
-						<Button transparent onPress={() => navigate('DrawerOpen')}>
-							<Icon name='menu' />
-						</Button>
-					</Left>
-					<Body>
-						<Title>Gustav</Title>
-					</Body>
-				</Header>
+				<NavHeader onLeftClick={() => navigate('DrawerOpen')} title="Gustav" />
 				<Content>
 					<ShopItem name="TEST2" price={200} icon={Images.test} />
 					<ShopItem name="TEST5" price={270} icon={Images.test2} />

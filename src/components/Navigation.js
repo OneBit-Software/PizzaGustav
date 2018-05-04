@@ -17,4 +17,8 @@ export default DrawerNavigator({
 			BestellScreen: { screen: Bestellen },
 		},{
 			initialRouteName: "HomeScreen",
+			drawerBackgroundColor: "black",
+			contentOptions: {
+				inactiveTintColor: "white",
+			}
 		});
