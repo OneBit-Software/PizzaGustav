@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { TextInput, ViewPropTypes } from 'react-native';
+import { TextInput } from 'react-native';
 import React, { Component } from 'react';
 
 /**
@@ -29,9 +29,10 @@ class NumericInput extends Component {
 		),
 		minValue: PropTypes.number,
 		maxValue: PropTypes.number,
-		style: ViewPropTypes.style,
+		style: PropTypes.any,
 		onChange: PropTypes.func,
-		isFloat: PropTypes.bool
+		isFloat: PropTypes.bool,
+		displayUnderline: PropTypes.bool
 	};
 	/**
 	 * Default values
@@ -42,11 +43,12 @@ class NumericInput extends Component {
 		maxValue: Number.POSITIVE_INFINITY,
 		style: null,
 		onChange: null,
-		isFloat: false
+		isFloat: false,
+		displayUnderline: false,
 	};
 	/**
 	 * creates a new NumericInput instance with the given properties.
-	 * @param {{value: number|function, minValue: number, maxValue: number, style, onChange: function, isFloat: boolean}} props 
+	 * @param {{value: number|function, minValue: number, maxValue: number, style, onChange: function, isFloat: boolean, displayUnderline: boolean}} props 
 	 * 
 	 * - value: optional. Initial value of the numeric input. defaults to 0(zero)
 	 * - minValue: optional. minmum value. defaults to negative infinity
@@ -55,6 +57,7 @@ class NumericInput extends Component {
 	 * - onChange: optional. will be called when a change is applied. defaults to null
 	 * - - Structure: onChange(newValue: number) : void
 	 * - isFloat: optioanl. defaults to false.
+	 * - displayUnderline: optional. defaults to false.
 	 */
 	constructor(props){ 
 		super(props);
@@ -64,16 +67,18 @@ class NumericInput extends Component {
 	 * Will apply the new value and forward it to the potentially available extern onChange function.
 	 */
 	onApply(){
-		let newNum = this.props.isFloat ? parseFloat(this.state.editValue) : parseInt(this.state.editValue);
-		this.setState({editValue: null})
-		if (Number.isNaN(newNum)) newNum = 0;
-		newNum = Math.max(this.props.minValue, Math.min(this.props.maxValue, newNum));
+		if (this.state.editValue !== null){
+			let newNum = this.props.isFloat ? parseFloat(this.state.editValue) : parseInt(this.state.editValue);
+			this.setState({editValue: null})
+			if (Number.isNaN(newNum)) newNum = 0;
+			newNum = Math.max(this.props.minValue, Math.min(this.props.maxValue, newNum));
 
-		if (typeof(this.state.value) === 'number' && newValue != this.state.value) 
-			this.setState({value: newNum});
-		
-		if(this.props.onChange !== null)
-			this.props.onChange(newNum);
+			if (typeof(this.state.value) === 'number' && newValue != this.state.value) 
+				this.setState({value: newNum});
+			
+			if(this.props.onChange !== null)
+				this.props.onChange(newNum);
+		}
 	}
 	/**
 	 * Stores the changed value for later use
@@ -97,10 +102,11 @@ class NumericInput extends Component {
 	}
 	render(){ return (
 			<TextInput
+				underlineColorAndroid={this.props.displayUnderline ? "black" : "transparent"}
 				keyboardType='phone-pad'
 				value={this.getDisplayValue()}
 				style={this.props.style}
-				onSubmitEditing={this.onApply.bind(this)}
+				onEndEditing={this.onApply.bind(this)}
 				onChangeText={this.onChange.bind(this)}
 			/>);}
 }

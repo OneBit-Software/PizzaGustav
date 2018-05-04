@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import { Image, TextInput } from 'react-native';
+import { Image, TextInput, View } from 'react-native';
 import React, { Component } from 'react';
-import { Container, Button, Icon, Text } from 'native-base';
+import { Container, Content, Button, Icon, Text } from 'native-base';
 import ShopItemStyle from '../style/ShopItemStyle';
 import NumericInput from './NumericInput';
 
@@ -58,28 +58,29 @@ class ShopItem extends Component {
 		};
 	}
 	onPlusPress() {
-		this.setState({ count: this.state.count + 1 });
+		if (this.state.count < 10)
+			this.setState({ count: this.state.count + 1 });
 	}
 	onMinusPress() {
 		if (this.state.count > 0)
 			this.setState({ count: this.state.count - 1 });
 	}
 	onNumChange(newNum) {
-		this.setState({count: newNum});
+		this.setState({ count: newNum });
 	}
 	getIcon() {
-		switch(typeof(this.props.icon)){
+		switch (typeof (this.props.icon)) {
 			case 'undefined': // no icon available
 				return;
 			case 'string': // icon given as uri path
-				return <Image style={{ width: 50, height: 50 }} source={{ uri: this.props.icon}}/>;
+				return <Image style={ShopItemStyle.image} source={{ uri: this.props.icon }} />;
 			case 'Image': // icon given as image
 				return this.props.icon;
 			default: // icon given as ressource. (id or uri-object)
-				return <Image style={{ width: 50, height: 50 }} source={this.props.icon}/>;
+				return <Image style={ShopItemStyle.image} source={this.props.icon} />;
 		}
 	}
-	getPrice(){
+	getPrice() {
 		let integer = Math.floor(this.props.price / 100); // ignore unprecise floating points
 		let float = Math.floor(this.props.price % 100); // get precise floating points with modulo
 		if (float == 0) return integer + '.-'; // render like 6.- instead of 6.0 (#.00)
@@ -88,19 +89,23 @@ class ShopItem extends Component {
 	}
 	render() {
 		return (
-			<Container style={ShopItemStyle.container}>
+			<View style={ShopItemStyle.container}>
 				{this.getIcon.bind(this)()}
-				<Container style={ShopItemStyle.subContainer}>
+				<View style={ShopItemStyle.subContainer}>
 					<Text style={ShopItemStyle.name}>{this.state.name}</Text>
 					<Text style={ShopItemStyle.price}>Preis: {this.getPrice.bind(this)()} CHF</Text>
-					<Container style={ShopItemStyle.subSubContainer}>
-						<Text>Bestellt:</Text>
-						<Button transparent onPress={this.onMinusPress.bind(this)}><Icon name='md-remove' /></Button>
+					<View style={ShopItemStyle.subSubContainer}>
+						<Text style={ShopItemStyle.orderText}>Bestellt:</Text>
+						<Button iconLeft iconRight small style={ShopItemStyle.button} transparent onPress={this.onMinusPress.bind(this)}>
+							<Icon style={ShopItemStyle.buttonIcon} name='md-remove' />
+						</Button>
 						<NumericInput onChange={this.onNumChange.bind(this)} minValue={0} maxValue={10} value={() => this.state.count} style={ShopItemStyle.input} />
-						<Button transparent onPress={this.onPlusPress.bind(this)}><Icon name='md-add' /></Button>
-					</Container>
-				</Container>
-			</Container>
+						<Button iconLeft iconRight small style={ShopItemStyle.button} transparent onPress={this.onPlusPress.bind(this)}>
+							<Icon style={ShopItemStyle.buttonIcon} name='md-add' />
+						</Button>
+					</View>
+				</View>
+			</View>
 		);
 	}
 }
