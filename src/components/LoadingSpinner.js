@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Spinner } from 'native-base';
+import { View, Image } from 'react-native';
 import containers from '../style/containers';
 
 export default class StartPage extends Component {
@@ -9,7 +10,10 @@ export default class StartPage extends Component {
 
     render() {
         return (
-            <Spinner />
+            <View>
+                <Spinner color='black' />
+            </View>
         );
+        //<Image style={containers.logo} source={require('../images/logo.png')} resizeMode="contain" />
     }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Header, Content, Spinner } from 'native-base';
+import { Container, Header, Content, Spinner, Footer, FooterTab, Button, Text } from 'native-base';
 import containers from '../style/containers';
 import DefaultHeader from './DefaultHeader';
 import Order from './Order';
@@ -31,8 +31,19 @@ export default class StartPage extends Component {
                     <Content>
                         <Order />
                     </Content>
+                    
                 </Container>
             );
+            // footer-section:
+            /*
+            <Footer>
+                <FooterTab style={containers.redBg}>
+                    <Button full>
+                        <Text>This is a footer-button</Text>
+                    </Button>
+                </FooterTab>
+            </Footer>
+            */
         }
     }
 }
