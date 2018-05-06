@@ -20,10 +20,18 @@ export default StyleSheet.create({
 	subFooter: {
 		flexDirection: 'row',
 		justifyContent: 'space-evenly',
+		borderTopColor: 'white',
+		borderTopWidth: 1,
 	},
 	logo:{
 		flex:1,
 		width: null,
 		height: null,
 	},
+	buttonContent: {
+        color: 'white',
+	},
+	selButtonContent: {
+		color: 'green',
+	}
 });
