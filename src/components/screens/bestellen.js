@@ -5,6 +5,8 @@ import ShopItem from '../ShopItem';
 import Images from '../../assets/images';
 import Style from '../../style/containers';
 import NavHeader from '../customHeader';
+import OrderFooter from '../OrderFooter';
+import OrderForm from '../OrderForm';
 import { formatNumber, spinner } from '../../utils';
 
 var axios = require('axios');
@@ -20,20 +22,37 @@ class Bestellen extends Component {
 			loading: true,
 			error: '',
 			menu: [],
-			selectedCategory: 0
+			selectedCategory: 0,
+			userData: {
+				firstname: '',
+				surname: '',
+				city: '',
+				zip: ''
+			}
 		}
 
-		this.spreadsheetId = "1cAMaeLWimahJmNskH-rmrFxEIGsJKlXM_twUv7glLD8";
-		this.sheetName = "Sheet1";
-		this.cellRange = "A2:E26";
-		this.apiKey = "AIzaSyACyHLJPD9WaU-At0Q7SYyUkE_S30ilxMg";
-		this.googleUrl = "https://sheets.googleapis.com/v4/spreadsheets/{spreadsheetId}/values/{sheetName}!{cellRange}?key={apiKey}";
+		this.gSheets = {
+			Menu: {
+				spreadsheetId: "1cAMaeLWimahJmNskH-rmrFxEIGsJKlXM_twUv7glLD8",
+				sheetName: "Sheet1",
+				cellRange: "A2:E26",
+				apiKey: "AIzaSyACyHLJPD9WaU-At0Q7SYyUkE_S30ilxMg"
+			},
+			ZipCity: {
+				spreadsheetId: "",
+				sheetName: "",
+				cellRange: "",
+				apiKey: ""
+			}
+		}
 
+		this.googleUrl = "https://sheets.googleapis.com/v4/spreadsheets/{spreadsheetId}/values/{sheetName}!{cellRange}?key={apiKey}";
 		this.categories = ['pizza', 'pasta', 'salat', 'dessert', 'getraenk'];
+		this.categoriesDisplay = ['Pizza', 'Pasta', 'Salat', 'Dessert', 'Getränk'];
 	}
 
 	componentWillMount() {
-		this.loadDataFromSheet()
+		this.loadDataFromSheet(this.gSheets.Menu)
 			.then((response) => {
 				var data = response;
 				console.log("No error:");
@@ -44,7 +63,6 @@ class Bestellen extends Component {
 					loading: false
 				});
 			}, (error) => {
-				console.error(error);
 				this.setState({
 					error: "Fehler beim laden der Speisekarte. Bitte überprüfen Sie die Internetverbindung."
 				})
@@ -67,17 +85,17 @@ class Bestellen extends Component {
 		return xMenu;
 	}
 
-	getSheetUrl() {
+	getSheetUrl(xGSheet) {
 		var url = this.googleUrl;
-		url = url.replace("{spreadsheetId}", this.spreadsheetId);
-		url = url.replace("{sheetName}", this.sheetName);
-		url = url.replace("{cellRange}", this.cellRange);
-		url = url.replace("{apiKey}", this.apiKey);
+		url = url.replace("{spreadsheetId}", xGSheet.spreadsheetId);
+		url = url.replace("{sheetName}", xGSheet.sheetName);
+		url = url.replace("{cellRange}", xGSheet.cellRange);
+		url = url.replace("{apiKey}", xGSheet.apiKey);
 		return url;
 	}
 
-	async loadDataFromSheet() {
-		var url = this.getSheetUrl();
+	async loadDataFromSheet(xGSheet) {
+		var url = this.getSheetUrl(xGSheet);
 		let response = await axios.get(url);
 		if (response != null) {
 			if (response.data != null) {
@@ -118,22 +136,45 @@ class Bestellen extends Component {
 		})
 	}
 
+	getShopItem(menu, index) {
+		return (
+			<ShopItem
+				key={menu.id}
+				name={menu.name}
+				price={menu.price}
+				count={menu.selected}
+				index={index}
+				plusCount={i => this.plusCount(i)}
+				minusCount={i => this.minusCount(i)}
+			/>
+		)
+	}
+
 	showSelectedCategory() {
 		return this.state.menu.map((menu, index) => {
 			if (menu.category == this.categories[this.state.selectedCategory]) {
-				return (
-					<ShopItem
-						key={menu.id}
-						name={menu.name}
-						price={menu.price}
-						count={menu.selected}
-						index={index}
-						plusCount={i => this.plusCount(i)}
-						minusCount={i => this.minusCount(i)}
-					/>
-				)
+				return this.getShopItem(menu, index);
 			}
 		})
+	}
+
+	showSelectedItems() {
+		return this.state.menu.map((menu, index) => {
+			if (menu.selected > 0) {
+				return this.getShopItem(menu, index);
+			}
+		})
+	}
+
+	getPriceOfSelected() {
+		var intPrice = 0;
+		this.state.menu.forEach((menu) => {
+			if (menu.selected > 0) {
+				var xItemPrice = parseInt(menu.price) * menu.selected;
+				intPrice = intPrice + xItemPrice;
+			}
+		})
+		return intPrice;
 	}
 
 	changeCategory(i) {
@@ -146,7 +187,7 @@ class Bestellen extends Component {
 
 	changeToNextCategory() {
 		var nextCategory = this.state.selectedCategory + 1;
-		if (nextCategory < this.categories.length) {
+		if (nextCategory <= this.categories.length) {
 			this.setState({
 				selectedCategory: nextCategory
 			})
@@ -154,9 +195,21 @@ class Bestellen extends Component {
 	}
 
 	markIfSelected(i) {
-		if(i==this.state.selectedCategory)
+		if (i == this.state.selectedCategory)
 			return Style.selButtonContent;
 		return Style.buttonContent;
+	}
+
+	onCityChange(newCity) {
+		console.log("onCityChange-Event:");
+		console.log(newCity);
+		var xUserData = this.state.userData;
+		xUserData.city = newCity;
+		this.setState({ userData: xUserData });
+	}
+
+	order() {
+		// send mail to Gustav with all informations
 	}
 
 	render() {
@@ -186,36 +239,42 @@ class Bestellen extends Component {
 			)
 		}
 		else {
-			return (
-				<Container>
-					<NavHeader onLeftClick={() => navigate('DrawerOpen')} title="Gustav" />
-					<Content>
-						{this.showSelectedCategory()}
-					</Content>
-					<Footer style={Style.footer}>
-						<Button full transparent onPress={() => this.changeToNextCategory()}>
-							<Text style={Style.buttonContent}>Weiter</Text>
-						</Button>
-						<View style={Style.subFooter}>
-							<Button transparent onPress={() => this.changeCategory(0)}>
-								<Icon name='pie' style={this.markIfSelected(0)} />
+			if (this.state.selectedCategory < this.categories.length) {
+				return (
+					<Container>
+						<NavHeader onLeftClick={() => navigate('DrawerOpen')} title={this.categoriesDisplay[this.state.selectedCategory]} />
+						<Content>
+							{this.showSelectedCategory()}
+						</Content>
+						<OrderFooter
+							changeToNextCategory={() => this.changeToNextCategory()}
+							changeCategory={i => this.changeCategory(i)}
+							markIfSelected={i => this.markIfSelected(i)}
+						/>
+					</Container>
+				);
+			}
+			else {
+				return (
+					<Container>
+						<NavHeader onLeftClick={() => navigate('DrawerOpen')} title="Bestellen" />
+						<Content>
+							<OrderForm userData={this.state.userData} onCityChange={(newCity) => this.onCityChange(newCity)} />
+							<Text style={Style.header2}>Bestellung:</Text>
+							<View style={Style.orderedItems}>
+								{this.showSelectedItems()}
+							</View>
+							<Text style={Style.header2}>Gesamt Preis:</Text>
+							<Text>{this.getPriceOfSelected()} CHF</Text>
+						</Content>
+						<Footer style={Style.smallFooter}>
+							<Button full transparent onPress={this.order()}>
+								<Text style={Style.buttonContent}>Bestellung abschicken</Text>
 							</Button>
-							<Button transparent onPress={() => this.changeCategory(1)}>
-								<Icon name='question' style={this.markIfSelected(1)} />
-							</Button>
-							<Button transparent onPress={() => this.changeCategory(2)}>
-								<Icon name='question' style={this.markIfSelected(2)} />
-							</Button>
-							<Button transparent onPress={() => this.changeCategory(3)}>
-								<Icon name='ice-cream' style={this.markIfSelected(3)} />
-							</Button>
-							<Button transparent onPress={() => this.changeCategory(4)}>
-								<Icon name='wine' style={this.markIfSelected(4)} />
-							</Button>
-						</View>
-					</Footer>
-				</Container>
-			);
+						</Footer>
+					</Container>
+				)
+			}
 		}
 	}
 }
