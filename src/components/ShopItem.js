@@ -10,6 +10,7 @@ class ShopItem extends Component {
 	static propTypes = {
 		children: PropTypes.node,
 		name: PropTypes.node,
+		content: PropTypes.node,
 		description: PropTypes.node,
 		count: PropTypes.number,
 		price: PropTypes.node.isRequired
@@ -23,7 +24,7 @@ class ShopItem extends Component {
 
 	/**
 	 * 
-	 * @param {{name:string, count:number,children:string, price:string, icon:Image|number|{uri:string}}} props 
+	 * @param {{name:string, count:number,children:string, price:string, content:string, icon:Image|number|{uri:string}}} props 
 	 * holds the properties of this components
 	 * 
 	 * - children: optional. The name of this shop item. if omitted this will fall back to 'name', 
@@ -58,18 +59,6 @@ class ShopItem extends Component {
 			count: props.count
 		};
 	}*/
-	onPlusPress() {
-		if (this.props.count < 10)
-			this.props.count++;
-			console.log(this.props.count);
-	}
-	onMinusPress() {
-		if (this.props.count > 0)
-		this.props.count--;
-	}
-	onNumChange(newNum) {
-		this.props.count = newNum;
-	}
 	/*getIcon() {
 		switch (typeof (this.props.icon)) {
 			case 'undefined': // no icon available
@@ -96,6 +85,7 @@ class ShopItem extends Component {
 			<View style={ShopItemStyle.container}>
 				<View style={ShopItemStyle.subContainer}>
 					<Text style={ShopItemStyle.name}>{this.props.name}</Text>
+					<Text>{this.props.content}</Text>
 					<Text style={ShopItemStyle.price}>Preis: {this.props.price} CHF</Text>
 					<View style={ShopItemStyle.subSubContainer}>
 						<Text style={ShopItemStyle.orderText}>Bestellt:</Text>

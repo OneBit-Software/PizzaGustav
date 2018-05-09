@@ -60,7 +60,7 @@ export default StyleSheet.create({
 	},
 	header2: {
 		marginLeft: 5,
-		marginTop: 10,
+		marginTop: 20,
 		fontSize: 24,
 		fontWeight: 'bold',
 	}

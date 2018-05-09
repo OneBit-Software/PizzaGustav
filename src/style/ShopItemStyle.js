@@ -6,7 +6,7 @@ export default StyleSheet.create({
 		borderColor: '#000',
 		flexDirection: 'row',
 		justifyContent: 'space-evenly',
-		height: 100
+		height: 'auto'
 	},
 	image: {
 		height: 88,

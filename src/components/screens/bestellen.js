@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Image, View, Alert } from 'react-native';
 import { Container, Content, Button, Body, Text, Icon, Header, Left, Right, Title, Footer } from 'native-base';
-import ShopItem from '../ShopItem';
 import Images from '../../assets/images';
 import Style from '../../style/containers';
 import NavHeader from '../customHeader';
 import OrderFooter from '../OrderFooter';
 import OrderForm from '../OrderForm';
+import ShopItem from '../ShopItem';
 import { formatNumber, spinner } from '../../utils';
 
 var axios = require('axios');
@@ -18,16 +18,22 @@ class Bestellen extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			loading: true,
-			error: '',
-			menu: [],
-			selectedCategory: 0,
-			userData: {
-				firstname: '',
-				surname: '',
-				city: '',
-				zip: ''
+		if (this.props.navigation.state.params != undefined) {
+			this.state = this.props.navigation.state.params;	// takes data from previewScreen
+		}
+		else {
+			this.state = {
+				loading: true,
+				error: '',
+				notification: '',
+				menu: [],
+				selectedCategory: 0,
+				userData: {
+					firstname: '',
+					surname: '',
+					city: '',
+					zip: ''
+				}
 			}
 		}
 
@@ -52,21 +58,28 @@ class Bestellen extends Component {
 	}
 
 	componentWillMount() {
-		this.loadDataFromSheet(this.gSheets.Menu)
-			.then((response) => {
-				var data = response;
-				console.log("No error:");
-				console.log(data);
-				var xMenu = this.mapDataToMenu(data);
-				this.setState({
-					menu: xMenu,
-					loading: false
-				});
-			}, (error) => {
-				this.setState({
-					error: "Fehler beim laden der Speisekarte. Bitte überprüfen Sie die Internetverbindung."
+		if (this.state.menu.length == 0) {
+			this.loadDataFromSheet(this.gSheets.Menu)
+				.then((response) => {
+					var data = response;
+					console.log("No error:");
+					console.log(data);
+					var xMenu = this.mapDataToMenu(data);
+					this.setState({
+						menu: xMenu,
+						loading: false
+					});
+				}, (error) => {
+					this.setState({
+						error: "Fehler beim laden der Speisekarte. Bitte überprüfen Sie Ihre Internetverbindung."
+					})
 				})
+		}
+		else {
+			this.setState({
+				loading: false
 			})
+		}
 	}
 
 	mapDataToMenu(data) {
@@ -126,26 +139,17 @@ class Bestellen extends Component {
 		})
 	}
 
-	setCount(i, newCount) {
-		var xMenu = this.state.menu.slice();
-		var actItem = xMenu[i];
-		if (newCount > 0)
-			actItem.selected = newCount;
-		this.setState({
-			menu: xMenu
-		})
-	}
-
-	getShopItem(menu, index) {
+	getShopItem(menu, index, plusCount, minusCount, xObj) {
 		return (
 			<ShopItem
 				key={menu.id}
 				name={menu.name}
 				price={menu.price}
 				count={menu.selected}
+				content={menu.content}
 				index={index}
-				plusCount={i => this.plusCount(i)}
-				minusCount={i => this.minusCount(i)}
+				plusCount={i => this.plusCount(i, xObj)}
+				minusCount={i => this.minusCount(i, xObj)}
 			/>
 		)
 	}
@@ -158,25 +162,6 @@ class Bestellen extends Component {
 		})
 	}
 
-	showSelectedItems() {
-		return this.state.menu.map((menu, index) => {
-			if (menu.selected > 0) {
-				return this.getShopItem(menu, index);
-			}
-		})
-	}
-
-	getPriceOfSelected() {
-		var intPrice = 0;
-		this.state.menu.forEach((menu) => {
-			if (menu.selected > 0) {
-				var xItemPrice = parseInt(menu.price) * menu.selected;
-				intPrice = intPrice + xItemPrice;
-			}
-		})
-		return intPrice;
-	}
-
 	changeCategory(i) {
 		if (i < this.categories.length) {
 			this.setState({
@@ -185,12 +170,30 @@ class Bestellen extends Component {
 		}
 	}
 
+	isAllowedToGoNext(nextCategory) {
+		if (this.categories.length == nextCategory) {
+			var isAllowed = this.state.menu.some((xMenu) => {
+				return xMenu.selected > 0
+			})
+			return isAllowed;
+		}
+		else return true;
+	}
+
 	changeToNextCategory() {
 		var nextCategory = this.state.selectedCategory + 1;
 		if (nextCategory <= this.categories.length) {
-			this.setState({
-				selectedCategory: nextCategory
-			})
+			if (this.isAllowedToGoNext(nextCategory)) {
+				this.setState({
+					selectedCategory: nextCategory
+				})
+			}
+			else {
+				this.setState({
+					selectedCategory: 0,
+					notification: 'Sie müssen mind. 1 Element aus der Liste auswählen.'
+				});
+			}
 		}
 	}
 
@@ -200,16 +203,25 @@ class Bestellen extends Component {
 		return Style.buttonContent;
 	}
 
-	onCityChange(newCity) {
-		console.log("onCityChange-Event:");
-		console.log(newCity);
-		var xUserData = this.state.userData;
-		xUserData.city = newCity;
-		this.setState({ userData: xUserData });
+	showNotificationIfNeeded() {
+		if (this.state.notification != '') {
+			return (
+				Alert.alert(
+					'Hinweis',
+					this.state.notification,
+					[
+						{ text: 'OK', onPress: () => this.onCloseNotification() }
+					],
+					{ cancelable: false }
+				)
+
+			)
+		}
+		return null;
 	}
 
-	order() {
-		// send mail to Gustav with all informations
+	onCloseNotification() {
+		this.setState({ notification: '' });
 	}
 
 	render() {
@@ -242,6 +254,7 @@ class Bestellen extends Component {
 			if (this.state.selectedCategory < this.categories.length) {
 				return (
 					<Container>
+						{this.showNotificationIfNeeded()}
 						<NavHeader onLeftClick={() => navigate('DrawerOpen')} title={this.categoriesDisplay[this.state.selectedCategory]} />
 						<Content>
 							{this.showSelectedCategory()}
@@ -256,24 +269,9 @@ class Bestellen extends Component {
 			}
 			else {
 				return (
-					<Container>
-						<NavHeader onLeftClick={() => navigate('DrawerOpen')} title="Bestellen" />
-						<Content>
-							<OrderForm userData={this.state.userData} onCityChange={(newCity) => this.onCityChange(newCity)} />
-							<Text style={Style.header2}>Bestellung:</Text>
-							<View style={Style.orderedItems}>
-								{this.showSelectedItems()}
-							</View>
-							<Text style={Style.header2}>Gesamt Preis:</Text>
-							<Text>{this.getPriceOfSelected()} CHF</Text>
-						</Content>
-						<Footer style={Style.smallFooter}>
-							<Button full transparent onPress={this.order()}>
-								<Text style={Style.buttonContent}>Bestellung abschicken</Text>
-							</Button>
-						</Footer>
-					</Container>
+					navigate('OrderPreviewScreen', this.state)
 				)
+
 			}
 		}
 	}
