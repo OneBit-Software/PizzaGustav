@@ -11,7 +11,7 @@ class Kontakt extends Component {
 			<Container>
 				<NavHeader onLeftClick={() => navigate('DrawerOpen')} title="Kontakt" />
 				<Content style={Style.bgBlack}>
-					<Text style={Style.fgWhite}>Wir können Sie nicht hören...</Text>
+					<Text style={Style.fgWhite}>Kontakt-Platzhalter</Text>
 				</Content>
 			</Container>
 		);

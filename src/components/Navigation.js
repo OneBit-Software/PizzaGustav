@@ -10,11 +10,11 @@ import Oeffnungszeiten from './screens/oeffnungszeiten';
 import Bestellvorschau from './screens/bestellvorschau';
 
 export default DrawerNavigator({
+			HomeScreen: { screen: StartSeite },
 			MindestbestellScreen: { screen: Mindestbestellung },
 			NewsScreen: { screen: News},
 			KontaktScreen: { screen: Kontakt },
 			OeffnungszeitenScreen: { screen: Oeffnungszeiten },
-			HomeScreen: { screen: StartSeite },
 			BestellScreen: { screen: Bestellen },
 			OrderPreviewScreen: { screen: Bestellvorschau },
 		},{
