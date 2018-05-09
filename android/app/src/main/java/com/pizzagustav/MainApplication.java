@@ -1,4 +1,4 @@
-package com.demopizzaapp;
+package com.pizzagustav;
 
 import android.app.Application;
 
