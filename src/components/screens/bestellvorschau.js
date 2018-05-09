@@ -87,15 +87,49 @@ export default class OrderPreview extends Component {
 
     onCityChange(newZipCity) {
         var xUserData = this.state.userData;
-        xUserData.zip = newZipCity.split('_')[0];
-        xUserData.city = newZipCity.split('_')[1];
+        //xUserData.zip = newZipCity.split('_')[0];
+        //xUserData.city = newZipCity.split('_')[1];
+        xUserData.city = newZipCity;
         this.setState({
             userData: xUserData
         })
     }
 
     order() {
-        // send mail to Gustav with all informations
+
+        // google-script-url: https://script.google.com/macros/s/AKfycbymb2_xNBD4mI3AreYBJ-2G_2GmqdrIIzSAutdGGg/exec
+
+        /*try {
+            let response = await fetch(
+              'https://script.google.com/macros/s/AKfycbymb2_xNBD4mI3AreYBJ-2G_2GmqdrIIzSAutdGGg/exec'
+            );
+            let responseJson = await response.json();
+            console.log(responseJson);
+          } catch (error) {
+            console.error(error);
+          }
+          */
+        console.log('order');
+        
+        this.setState({
+            hasSent: true
+        });
+    }
+
+    showMessageIfNeeded() {
+        if (this.state.hasSent) {
+            return (
+                Alert.alert(
+                    'Bestellung',
+                    'Ihre Bestellung wurde erfolgreich abgeschickt.',
+                    [
+                        { text: 'OK', onPress: () => this.props.navigation.navigate('HomeScreen') }
+                    ],
+                    { cancelable: false }
+                )
+            )
+        }
+        else return null;
     }
 
     render() {
@@ -128,6 +162,7 @@ export default class OrderPreview extends Component {
             return (
                 <Container>
                     <NavHeader onLeftClick={() => navigate('DrawerOpen')} title="Bestellen" />
+                    {this.showMessageIfNeeded()}
                     <Content>
                         <OrderForm userData={this.state.userData} onCityChange={(newCity) => this.onCityChange(newCity)} />
                         <Text style={Style.header2}>Gesamt Preis: {this.getPriceOfSelected()} CHF</Text>
@@ -137,7 +172,7 @@ export default class OrderPreview extends Component {
                         </View>
                     </Content>
                     <Footer style={Style.smallFooter}>
-                        <Button full transparent onPress={this.order()}>
+                        <Button full transparent onPress={() => this.order()}>
                             <Text style={Style.buttonContent}>Bestellung abschicken</Text>
                         </Button>
                     </Footer>

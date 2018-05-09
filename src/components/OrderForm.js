@@ -20,11 +20,11 @@ export default class OrderForm extends Component {
                     selectedValue={this.props.userData.city}
                     onValueChange={this.props.onCityChange.bind(this)}
                 >
-                    <Picker.Item label="8854 - Siebnen" value="8854_Siebnen" />
-                    <Picker.Item label="8862 - Schübelbach" value="8862_Schübelbach" />
-                    <Picker.Item label="8854 - Galgenen" value="8854_Galgenen" />
-                    <Picker.Item label="8855 - Wangen" value="8855_Wangen" />
-                    <Picker.Item label="8853 - Lachen" value="8853_Lachen" />
+                    <Picker.Item label="8854 - Siebnen" value="Siebnen" />
+                    <Picker.Item label="8862 - Schübelbach" value="Schübelbach" />
+                    <Picker.Item label="8854 - Galgenen" value="Galgenen" />
+                    <Picker.Item label="8855 - Wangen" value="Wangen" />
+                    <Picker.Item label="8853 - Lachen" value="Lachen" />
                 </Picker>
                 <Item inlineLabel>
                     <Label>Strasse / Hausnr.:</Label>

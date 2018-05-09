@@ -12,7 +12,7 @@ class StartSeite extends Component {
 		const { navigate } = this.props.navigation;
 		return (
 			<Container>
-				<NavHeader onLeftClick={() => navigate('DrawerOpen')} title="StartSeite" />
+				<NavHeader onLeftClick={() => navigate('DrawerOpen')} title="Willkommen" />
 				<Content contentContainerStyle={Style.list}>
 					<Image resizeMode='cover' style={Style.logo} source={Images.logo}/>
 					<Button style={Style.button} full onPress={() => navigate('BestellScreen')}>
