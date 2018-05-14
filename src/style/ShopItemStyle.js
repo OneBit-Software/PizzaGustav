@@ -2,12 +2,11 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
 	container: {
-		borderTopWidth: 1,
-		borderBottomWidth: 1,
+		borderBottomWidth: 2,
 		borderColor: '#000',
 		flexDirection: 'row',
 		justifyContent: 'space-evenly',
-		height: 100
+		height: 'auto'
 	},
 	image: {
 		height: 88,
@@ -43,6 +42,7 @@ export default StyleSheet.create({
 		width: 30,
 		textAlign: 'center',
 		left: -2.5,
+		color: 'black',
 	},
 	button: {
 		borderRadius: 15,
@@ -57,5 +57,6 @@ export default StyleSheet.create({
 		width: 30,
 		padding: 0,
 		textAlign: 'center',
+		textAlignVertical: 'center'
 	}
 });

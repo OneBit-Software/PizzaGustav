@@ -10,9 +10,11 @@ class ShopItem extends Component {
 	static propTypes = {
 		children: PropTypes.node,
 		name: PropTypes.node,
+		content: PropTypes.node,
+		description: PropTypes.node,
 		count: PropTypes.number,
-		price: PropTypes.number.isRequired,
-		icon: PropTypes.oneOfType(PropTypes.instanceOf(Image), PropTypes.shape({ uri: PropTypes.string }), PropTypes.number)
+		price: PropTypes.node.isRequired
+		//icon: PropTypes.oneOfType(PropTypes.instanceOf(Image), PropTypes.shape({ uri: PropTypes.string }), PropTypes.number)
 	};
 
 	static defaultProps = {
@@ -22,7 +24,7 @@ class ShopItem extends Component {
 
 	/**
 	 * 
-	 * @param {{name:string, count:number,children:string, price:number, icon:Image|number|{uri:string}}} props 
+	 * @param {{name:string, count:number,children:string, price:string, content:string, icon:Image|number|{uri:string}}} props 
 	 * holds the properties of this components
 	 * 
 	 * - children: optional. The name of this shop item. if omitted this will fall back to 'name', 
@@ -47,7 +49,7 @@ class ShopItem extends Component {
 	 * - ...icon={require('../assets/img/test.bmp')}
 	 * - ...icon={{uri: 'http://...bmp'}}
 	 */
-	constructor(props) {
+	/*constructor(props) {
 		super(props);
 		// use name property/default value, or children if available.
 		let name = props.name;
@@ -56,19 +58,8 @@ class ShopItem extends Component {
 			name: name,
 			count: props.count
 		};
-	}
-	onPlusPress() {
-		if (this.state.count < 10)
-			this.setState({ count: this.state.count + 1 });
-	}
-	onMinusPress() {
-		if (this.state.count > 0)
-			this.setState({ count: this.state.count - 1 });
-	}
-	onNumChange(newNum) {
-		this.setState({ count: newNum });
-	}
-	getIcon() {
+	}*/
+	/*getIcon() {
 		switch (typeof (this.props.icon)) {
 			case 'undefined': // no icon available
 				return;
@@ -79,28 +70,30 @@ class ShopItem extends Component {
 			default: // icon given as ressource. (id or uri-object)
 				return <Image style={ShopItemStyle.image} source={this.props.icon} />;
 		}
-	}
-	getPrice() {
+	}*/
+	/*getPrice() { // delete perhaps
 		let integer = Math.floor(this.props.price / 100); // ignore unprecise floating points
 		let float = Math.floor(this.props.price % 100); // get precise floating points with modulo
 		if (float == 0) return integer + '.-'; // render like 6.- instead of 6.0 (#.00)
 		if (float < 10) return integer + '.0' + float;  // render like 6.05 instead of 6.5 (#.01 - #.09)
 		return integer + '.' + float;	// render as is (#.10 - #.99)
-	}
+	}*/
 	render() {
+		// to implement pizza-icon: {this.getIcon.bind(this)()}
+		// numeric input: <NumericInput onChange={this.onNumChange.bind(this)} minValue={0} maxValue={10} value={this.props.count} style={ShopItemStyle.input} />
 		return (
 			<View style={ShopItemStyle.container}>
-				{this.getIcon.bind(this)()}
 				<View style={ShopItemStyle.subContainer}>
-					<Text style={ShopItemStyle.name}>{this.state.name}</Text>
-					<Text style={ShopItemStyle.price}>Preis: {this.getPrice.bind(this)()} CHF</Text>
+					<Text style={ShopItemStyle.name}>{this.props.name}</Text>
+					<Text>{this.props.content}</Text>
+					<Text style={ShopItemStyle.price}>Preis: {this.props.price} CHF</Text>
 					<View style={ShopItemStyle.subSubContainer}>
 						<Text style={ShopItemStyle.orderText}>Bestellt:</Text>
-						<Button iconLeft iconRight small style={ShopItemStyle.button} transparent onPress={this.onMinusPress.bind(this)}>
+						<Button iconLeft iconRight small style={ShopItemStyle.button} transparent onPress={() => this.props.minusCount(this.props.index)}>
 							<Icon style={ShopItemStyle.buttonIcon} name='md-remove' />
 						</Button>
-						<NumericInput onChange={this.onNumChange.bind(this)} minValue={0} maxValue={10} value={() => this.state.count} style={ShopItemStyle.input} />
-						<Button iconLeft iconRight small style={ShopItemStyle.button} transparent onPress={this.onPlusPress.bind(this)}>
+						<Text style={ShopItemStyle.input}>{this.props.count}</Text>
+						<Button iconLeft iconRight small style={ShopItemStyle.button} transparent onPress={() => this.props.plusCount(this.props.index)}>
 							<Icon style={ShopItemStyle.buttonIcon} name='md-add' />
 						</Button>
 					</View>

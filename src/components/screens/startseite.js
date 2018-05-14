@@ -7,12 +7,12 @@ import NavHeader from '../customHeader';
 
 class StartSeite extends Component {
 	// from https://github.com/react-navigation/react-navigation/issues/2021#issuecomment-330891515
-	static navigationOptions = { drawerLabel: () => null };
+	static navigationOptions = { title: "Home" };
 	render() {
 		const { navigate } = this.props.navigation;
 		return (
 			<Container>
-				<NavHeader onLeftClick={() => navigate('DrawerOpen')} title="StartSeite" />
+				<NavHeader onLeftClick={() => navigate('DrawerOpen')} title="Willkommen" />
 				<Content contentContainerStyle={Style.list}>
 					<Image resizeMode='cover' style={Style.logo} source={Images.logo}/>
 					<Button style={Style.button} full onPress={() => navigate('BestellScreen')}>
