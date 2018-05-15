@@ -19,7 +19,7 @@ class Bestellen extends Component {
 		super(props);
 
 		if (this.props.navigation.state.params != undefined) {
-			this.state = this.props.navigation.state.params;	// takes data from previewScreen
+			this.state = this.props.navigation.state.params;	// takes data from screen before if exists
 		}
 		else {
 			this.state = {
