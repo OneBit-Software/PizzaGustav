@@ -8,6 +8,7 @@ import Kontakt from './screens/kontakt';
 import Mindestbestellung from './screens/mindestbestellung';
 import Oeffnungszeiten from './screens/oeffnungszeiten';
 import Bestellvorschau from './screens/bestellvorschau';
+import DetailView from './screens/DetailView';
 
 export default DrawerNavigator({
 			HomeScreen: { screen: StartSeite },
@@ -17,6 +18,7 @@ export default DrawerNavigator({
 			OeffnungszeitenScreen: { screen: Oeffnungszeiten },
 			BestellScreen: { screen: Bestellen },
 			OrderPreviewScreen: { screen: Bestellvorschau },
+			DetailMealView: { screen: DetailView }
 		},{
 			initialRouteName: "HomeScreen",
 			drawerBackgroundColor: "black",

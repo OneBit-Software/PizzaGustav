@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Image, TextInput, View } from 'react-native';
+import { Image, TextInput, View, TouchableOpacity } from 'react-native';
 import React, { Component } from 'react';
 import { Container, Content, Button, Icon, Text } from 'native-base';
 import ShopItemStyle from '../style/ShopItemStyle';
@@ -10,7 +10,7 @@ class ShopItem extends Component {
 	static propTypes = {
 		children: PropTypes.node,
 		name: PropTypes.node,
-		content: PropTypes.node,
+		content: PropTypes.array,
 		description: PropTypes.node,
 		count: PropTypes.number,
 		price: PropTypes.node.isRequired
@@ -24,7 +24,7 @@ class ShopItem extends Component {
 
 	/**
 	 * 
-	 * @param {{name:string, count:number,children:string, price:string, content:string, icon:Image|number|{uri:string}}} props 
+	 * @param {{name:string, count:number,children:string, price:string, content:Array, description:string, icon:Image|number|{uri:string}}} props 
 	 * holds the properties of this components
 	 * 
 	 * - children: optional. The name of this shop item. if omitted this will fall back to 'name', 
@@ -78,27 +78,46 @@ class ShopItem extends Component {
 		if (float < 10) return integer + '.0' + float;  // render like 6.05 instead of 6.5 (#.01 - #.09)
 		return integer + '.' + float;	// render as is (#.10 - #.99)
 	}*/
+
+	showDescriptionOrContent() {
+		if (this.props.description != '') return this.props.description;
+		else {
+			let isFirst = true;
+			return this.props.content.map((xIngredient) => {
+				if (isFirst) {
+					isFirst = false;
+					return xIngredient.name;
+				}
+				else return ", " + xIngredient.name;
+			})
+		}
+	}
+
 	render() {
 		// to implement pizza-icon: {this.getIcon.bind(this)()}
 		// numeric input: <NumericInput onChange={this.onNumChange.bind(this)} minValue={0} maxValue={10} value={this.props.count} style={ShopItemStyle.input} />
 		return (
-			<View style={ShopItemStyle.container}>
+			<TouchableOpacity style={ShopItemStyle.container} onPress={() => this.props.onSelect(this.props.index)}>
 				<View style={ShopItemStyle.subContainer}>
 					<Text style={ShopItemStyle.name}>{this.props.name}</Text>
-					<Text>{this.props.content}</Text>
-					<Text style={ShopItemStyle.price}>Preis: {this.props.price} CHF</Text>
-					<View style={ShopItemStyle.subSubContainer}>
-						<Text style={ShopItemStyle.orderText}>Bestellt:</Text>
-						<Button iconLeft iconRight small style={ShopItemStyle.button} transparent onPress={() => this.props.minusCount(this.props.index)}>
-							<Icon style={ShopItemStyle.buttonIcon} name='md-remove' />
-						</Button>
-						<Text style={ShopItemStyle.input}>{this.props.count}</Text>
-						<Button iconLeft iconRight small style={ShopItemStyle.button} transparent onPress={() => this.props.plusCount(this.props.index)}>
-							<Icon style={ShopItemStyle.buttonIcon} name='md-add' />
-						</Button>
+					<View style={ShopItemStyle.tableContainer}>
+						<View style={ShopItemStyle.labelContainer}>
+							<Text>Inhalt:</Text>
+						</View>
+						<View style={ShopItemStyle.propertyContainer}>
+							<Text>{this.showDescriptionOrContent()}</Text>
+						</View>
+					</View>
+					<View style={ShopItemStyle.tableContainer}>
+						<View style={ShopItemStyle.labelContainer}>
+							<Text>Preis:</Text>
+						</View>
+						<View style={ShopItemStyle.propertyContainer}>
+							<Text style={ShopItemStyle.price}>{this.props.price} CHF</Text>
+						</View>
 					</View>
 				</View>
-			</View>
+			</TouchableOpacity>
 		);
 	}
 }

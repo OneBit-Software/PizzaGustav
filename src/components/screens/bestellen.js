@@ -28,6 +28,7 @@ class Bestellen extends Component {
 				notification: '',
 				menu: [],
 				selectedCategory: 0,
+				selectedMeals: [],
 				userData: {
 					firstname: '',
 					surname: '',
@@ -41,7 +42,7 @@ class Bestellen extends Component {
 			Menu: {
 				spreadsheetId: "1cAMaeLWimahJmNskH-rmrFxEIGsJKlXM_twUv7glLD8",
 				sheetName: "Sheet1",
-				cellRange: "A2:E26",
+				cellRange: "A2:G27",
 				apiKey: "AIzaSyACyHLJPD9WaU-At0Q7SYyUkE_S30ilxMg"
 			},
 			ZipCity: {
@@ -82,15 +83,32 @@ class Bestellen extends Component {
 		}
 	}
 
+	parseContentToArray(strContent) {
+		var arrContent = strContent.split(",");
+		retArr = [];
+		arrContent.forEach((xContent) => {
+			if (xContent != '') {
+				xObj = {
+					name: xContent.trim(),
+					isChecked: true
+				}
+				retArr.push(xObj);
+			}
+		})
+		return retArr;
+	}
+
 	mapDataToMenu(data) {
 		var xMenu = [];
 		data.forEach((item) => {
 			var xItem = {
 				id: item[0],
 				name: item[1],
-				content: item[2],
-				price: formatNumber(item[3]),
-				category: item[4],
+				description: item[2],
+				content: this.parseContentToArray(item[3]),
+				price: formatNumber(item[4]),
+				category: item[5],
+				imageurl: item[6],
 				selected: 0
 			}
 			xMenu.push(xItem);
@@ -120,36 +138,25 @@ class Bestellen extends Component {
 		console.log("Error loading data from Google-Sheet!");
 	}
 
-	plusCount(i) {
-		var xMenu = this.state.menu.slice();
-		var actItem = xMenu[i];
-		actItem.selected++;
-		this.setState({
-			menu: xMenu
-		})
-	}
-
-	minusCount(i) {
-		var xMenu = this.state.menu.slice();
-		var actItem = xMenu[i];
-		if (actItem.selected > 0)
-			actItem.selected--;
-		this.setState({
-			menu: xMenu
-		})
+	showDetailView(i) {
+		let xObj = {
+			state: this.state,
+			selectedMeal: i
+		}
+		this.props.navigation.navigate('DetailMealView', xObj);
 	}
 
 	getShopItem(menu, index, plusCount, minusCount, xObj) {
 		return (
 			<ShopItem
-				key={menu.id}
+				key={index}
 				name={menu.name}
 				price={menu.price}
 				count={menu.selected}
 				content={menu.content}
+				description={menu.description}
 				index={index}
-				plusCount={i => this.plusCount(i, xObj)}
-				minusCount={i => this.minusCount(i, xObj)}
+				onSelect={i => this.showDetailView(i)}
 			/>
 		)
 	}

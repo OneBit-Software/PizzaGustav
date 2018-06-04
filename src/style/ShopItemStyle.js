@@ -2,8 +2,10 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
 	container: {
-		borderBottomWidth: 2,
-		borderColor: '#000',
+		borderBottomWidth: 1,
+		borderColor: '#dbdbdb',
+		marginLeft: 10,
+		marginRight: 10,
 		flexDirection: 'row',
 		justifyContent: 'space-evenly',
 		height: 'auto'
@@ -58,5 +60,17 @@ export default StyleSheet.create({
 		padding: 0,
 		textAlign: 'center',
 		textAlignVertical: 'center'
-	}
+	},
+	tableContainer: {
+		flexDirection: 'row',
+		flex: 1,
+	},
+	labelContainer: {
+		flexDirection: 'column',
+		flex: 1,
+	},
+	propertyContainer: {
+		flexDirection: 'column',
+		flex: 3,
+	},
 });
