@@ -82,8 +82,8 @@ class DetailView extends Component {
     }
 
     onCloseNotification() {
-		this.setState({ notification: '' });
-	}
+        this.setState({ notification: '' });
+    }
 
     plusCount() {
         var xMenu = this.state.menu.slice();
@@ -135,18 +135,28 @@ class DetailView extends Component {
 
     addToShoppingcart(xMeal) {
         if (xMeal.selected > 0) {
-            var shoppingcart = this.state.selectedMeals.slice();
+            var xState = this.state;
+            var shoppingcart = xState.selectedMeals.slice();
             shoppingcart.push(xMeal);
-            this.setState({
-                selectedMeals: shoppingcart,
-            });
-            this.props.navigation.navigate('BestellScreen', this.state);
+            xState.selectedMeals = shoppingcart;
+            console.log(xState);
+            this.props.navigation.navigate('BestellScreen', xState);
         }
         else {
             this.setState({
                 notification: "Sie müssen die Anzahl um mind. 1 erhöhen, um es zur Bestellung hinzufügen zu können."
             })
         }
+    }
+
+    countOrder() {
+        var xCount = 0;
+        if (this.state.selectedMeals.length > 0) {
+            this.state.selectedMeals.forEach((meal) => {
+                xCount = xCount + meal.selected;
+            })
+        }
+        return xCount;
     }
 
     render() {
@@ -156,14 +166,20 @@ class DetailView extends Component {
         //<Image style={Style.image} source={{uri: 'https://i.vimeocdn.com/portrait/58832_300x300.jpg'}} />
 
         return (
-            
+
             <Container>
-                
-                <Image source={{uri: 'https://facebook.github.io/react/logo-og.png'}} />
                 {this.showNotificationIfNeeded()}
-                <NavHeader onLeftClick={() => navigate('DrawerOpen')} title={meal.name} />
+                <NavHeader
+                    onLeftClick={() => navigate('BestellScreen', this.state)}
+                    left="ios-arrow-back"
+                    title={meal.name}
+                    right="ios-cart"
+                    onRightClick={() => navigate('ShoppingCartScreen', this.state)}
+                    badgeRight={this.countOrder()}
+                />
                 <Content style={Style.container}>
                     <View style={Style.imageContainer}>
+                        <Image source={{ uri: 'https://facebook.github.io/react/logo-og.png' }} />
                     </View>
                     <View style={Style.countContainer}>
                         <Text style={Style.header2}>Anzahl:</Text>

@@ -64,7 +64,7 @@ export default StyleSheet.create({
 		textAlignVertical: 'center',
         marginRight: 30,
         fontWeight: 'bold',
-        fontSize: 24,
+        fontSize: 20,
     },
     buttonIcon: {
 		width: 30,

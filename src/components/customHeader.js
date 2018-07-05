@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Body, Text, Header, Left, Right, Title, Button, Icon } from 'native-base';
+import { Body, Text, Header, Left, Right, Title, Button, Icon, Badge } from 'native-base';
 import PropTypes from 'prop-types';
 
 class NavHeader extends Component {
@@ -14,6 +14,7 @@ class NavHeader extends Component {
 		onLeftClick: PropTypes.func,
 		onRightClick: PropTypes.func,
 		onTitleClick: PropTypes.func,
+		badgeRight: PropTypes.number,
 	};
 	static defaultProps = {
 		title: 'untitled',
@@ -26,6 +27,7 @@ class NavHeader extends Component {
 		onLeftClick: null,
 		onRightClick: null,
 		onTitleClick: null,
+		badgeRight: null,
 	};
 	constructor(props) {
 		super(props);
@@ -33,11 +35,24 @@ class NavHeader extends Component {
 			left: props.left === null ? null :
 				<Button transparent onPress={props.onLeftClick}><Icon style={props.leftStyle} name={props.left} /></Button>,
 			right: props.right === null ? null :
-				<Button transparent onPress={props.onLeftClick}><Icon style={props.leftStyle}  name={props.left} /></Button>,
+				<Button transparent onPress={props.onRightClick}>
+					<Icon style={props.rightStyle}  name={props.right} />
+					{this.setRightBadgeIfUsed(props)}
+				</Button>,
 			title: props.title === null ? null :
 				<Title style={[{ textAlign: 'center', textAlignVertical: 'center',flex:5},props.titleStyle]}>{props.title}</Title>
 		}
 	}
+
+	setRightBadgeIfUsed(xProps) {
+		console.log(xProps.badgeRight);
+		if(xProps.badgeRight != null && xProps.badgeRight > 0) {
+			return (
+				<Badge style={{ scaleX: 0.6, scaleY: 0.6, position: 'absolute', right: 0, }}><Text>{xProps.badgeRight}</Text></Badge>
+			)
+		}
+	}
+
 	render() {
 		return (
 			<Header style={[this.props.style, {justifyContent: 'space-evenly'}]}>

@@ -227,6 +227,16 @@ class Bestellen extends Component {
 		return null;
 	}
 
+	countOrder() {
+        var xCount = 0;
+        if (this.state.selectedMeals.length > 0) {
+            this.state.selectedMeals.forEach((meal) => {
+                xCount = xCount + meal.selected;
+            })
+        }
+        return xCount;
+    }
+
 	onCloseNotification() {
 		this.setState({ notification: '' });
 	}
@@ -237,7 +247,14 @@ class Bestellen extends Component {
 		if (this.state.error != '') {
 			return (
 				<Container>
-					<NavHeader onLeftClick={() => navigate('DrawerOpen')} title="Gustav" />
+					<NavHeader
+						onLeftClick={() => navigate('HomeScreen', this.state)}
+						left="ios-arrow-back"
+						title="Gustav"
+						right="ios-cart"
+						onRightClick={() => navigate('ShoppingCartScreen', this.state)}
+						badgeRight={this.countOrder()}
+					/>
 					{Alert.alert(
 						'Fehler',
 						this.state.error,
@@ -252,7 +269,14 @@ class Bestellen extends Component {
 		else if (this.state.loading) {
 			return (
 				<Container>
-					<NavHeader onLeftClick={() => navigate('DrawerOpen')} title="Gustav" />
+					<NavHeader
+						onLeftClick={() => navigate('HomeScreen', this.state)}
+						left="ios-arrow-back"
+						title="Gustav"
+						right="ios-cart"
+						onRightClick={() => navigate('ShoppingCartScreen', this.state)}
+						badgeRight={this.countOrder()}
+					/>
 					{spinner()}
 				</Container>
 			)
@@ -262,7 +286,14 @@ class Bestellen extends Component {
 				return (
 					<Container>
 						{this.showNotificationIfNeeded()}
-						<NavHeader onLeftClick={() => navigate('DrawerOpen')} title={this.categoriesDisplay[this.state.selectedCategory]} />
+						<NavHeader
+							onLeftClick={() => navigate('HomeScreen', this.state)}
+							left="ios-arrow-back"
+							title={this.categoriesDisplay[this.state.selectedCategory]}
+							right="ios-cart"
+							onRightClick={() => navigate('ShoppingCartScreen', this.state)}
+							badgeRight={this.countOrder()}
+						/>
 						<Content>
 							{this.showSelectedCategory()}
 						</Content>
